@@ -1,12 +1,12 @@
 --Crear tabla en esquema
 
-CREATE TABLE IF NOT EXISTS gth_asistencia.empleados_app (
+CREATE TABLE IF NOT EXISTS ope_control_turnos.empleados_app (
     cedula text NOT NULL,
     nombre text,
     contrato bigint,
     cod_cc text,
     centro_de_costos text,
-    cod_cargo numeric,
+    cod_cargo text,
     cargo text,
     retirado text,
     email text,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS gth_asistencia.empleados_app (
 
 --Insertar datos en tabla
 
-INSERT INTO gth_asistencia.empleados_app (
+INSERT INTO ope_control_turnos.empleados_app (
     cedula, 
     nombre, 
     contrato, 
@@ -28,7 +28,7 @@ INSERT INTO gth_asistencia.empleados_app (
     cargo, 
     retirado,
     email,
-    telefono_1,
+    telefono_1
 )
 SELECT DISTINCT ON (cedula) 
     CASE 
@@ -43,7 +43,7 @@ SELECT DISTINCT ON (cedula)
     cargo, 
     retirado,
     email, 
-    telefono_1,
+    telefono_1
 FROM public.dim_historico_empleados
 ORDER BY cedula, contrato DESC
 ON CONFLICT (cedula) DO UPDATE SET
@@ -59,7 +59,7 @@ ON CONFLICT (cedula) DO UPDATE SET
 
 --Automatizar actualización
 
-CREATE OR REPLACE FUNCTION gth_asistencia.fn_sync_personal_a_app()
+CREATE OR REPLACE FUNCTION ope_control_turnos.fn_sync_personal_a_app()
 RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO gth_asistencia.empleados_app (
