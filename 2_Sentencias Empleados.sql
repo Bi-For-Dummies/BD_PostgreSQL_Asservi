@@ -1,6 +1,6 @@
 --Crear tabla en esquema
 
-CREATE TABLE IF NOT EXISTS ope_control_turnos.empleados_app (
+CREATE TABLE IF NOT EXISTS sig_epp.empleados_app (
     cedula text NOT NULL,
     nombre text,
     contrato bigint,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ope_control_turnos.empleados_app (
 
 --Insertar datos en tabla
 
-INSERT INTO ope_control_turnos.empleados_app (
+INSERT INTO sig_epp.empleados_app (
     cedula, 
     nombre, 
     contrato, 
@@ -59,10 +59,10 @@ ON CONFLICT (cedula) DO UPDATE SET
 
 --Automatizar actualización
 
-CREATE OR REPLACE FUNCTION ope_control_turnos.fn_sync_personal_a_app()
+CREATE OR REPLACE FUNCTION sig_epp.fn_sync_personal_a_app()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO gth_asistencia.empleados_app (
+    INSERT INTO sig_epp.empleados_app (
         cedula, nombre, contrato, cod_cc, centro_de_costos, cod_cargo, cargo, retirado, email, telefono_1, porcentaje_arp
     )
     VALUES (
@@ -89,7 +89,7 @@ $$ LANGUAGE plpgsql;
 
 --Trigger
 
-CREATE TRIGGER trg_sync_personal_gth_asistencia
+CREATE TRIGGER trg_sync_personal
 AFTER INSERT OR UPDATE ON public.dim_historico_empleados
 FOR EACH ROW
-EXECUTE FUNCTION gth_asistencia.fn_sync_personal_a_app();
+EXECUTE FUNCTION sig_epp.fn_sync_personal_a_app();
