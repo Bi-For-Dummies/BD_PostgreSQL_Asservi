@@ -1,3 +1,6 @@
+--Primero se debe cargar el archivo CSV que genera Oceanic en la tabla carga_masiva_erp
+--Posteriormente se ejecuta la siguiente secuencía
+
 INSERT INTO public.dim_historico_empleados (
     "contrato", "cedula", "nombre", "primer_nombre", "segundo_nombre", "primer_apellido", "segundo_apellido",
     "cod_tipo_ident", "tipo_identificacion", "cod_ciudad_expedicion", "ciudad_expedicion", "fecha_nacimiento",
